@@ -40,28 +40,28 @@ public class PropositionController {
 
         List<Book> books =  bookDao.listAll();
         model.addAttribute("books", books);
-        return "PropositionList";
+        return "BookList";
     }
 
-    @GetMapping("book/delete/{id}")
+    @GetMapping("proposition/delete/{id}")
     public String delete(@PathVariable Long id) {
 
         bookDao.delete(id);
-        return "redirect:/books";
+        return "redirect:/propositions";
     }
 
 
-    @GetMapping("book/edit/{id}")
+    @GetMapping("proposition/edit/{id}")
     public String edit(Model model, @PathVariable Long id) {
         Book book = bookDao.findById(id);
         model.addAttribute("book", book);
-        return "BookEdit";
+        return "PropositionEdit";
     }
 
-    @PostMapping("book/edit/{id}")
+    @PostMapping("proposition/edit/{id}")
     public String edit(@ModelAttribute Book book) {
         bookDao.update(book);
-        return "redirect:/books";
+        return "redirect:/propositions";
 
     }
 }

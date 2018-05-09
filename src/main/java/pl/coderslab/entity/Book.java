@@ -1,6 +1,7 @@
 package pl.coderslab.entity;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import pl.coderslab.interfaces.ValidationGroupProposition;
 
 import javax.persistence.*;
 import javax.validation.constraints.Max;
@@ -19,6 +20,8 @@ public class Book {
     private long id;
 
     @Size(min =5)
+    @NotNull(groups =
+            ValidationGroupProposition.class)
     private String title;
 
     @NotEmpty
@@ -35,7 +38,11 @@ public class Book {
 
     @Size(max=600)
     @Column(columnDefinition = "TEXT")
+    @NotNull(groups =
+            ValidationGroupProposition.class)
     private String description;
+
+    // to be continued - slajd 41
 
     @Min(1)
     private int pages;
