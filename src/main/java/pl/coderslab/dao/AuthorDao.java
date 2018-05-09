@@ -37,14 +37,16 @@ public class AuthorDao {
     public void delete(Long id){
         Author author = findById(id);
 //        //testowo próba wywalenia z booka
-//        List<Book> books = bookDao.listAll();
-//
-//        for (Book book : books) {
-//            List<Author> authors = book.getAuthors();
-//            if (authors.contains(author) ) {
-//                authors.remove(author.getId() );
-//            }
-//        }
+        List<Book> books = bookDao.listAll();
+
+        for (Book book : books) {
+            List<Author> authors = book.getAuthors();
+            if (authors.contains(author) ) {
+                authors.remove(author.getId() );
+                book.setAuthors(authors);
+                bookDao.update(book);
+            }
+        }
 
         em.remove( em.contains(author) ? author : em.merge(author) );
     }

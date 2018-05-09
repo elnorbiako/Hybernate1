@@ -3,11 +3,12 @@ package pl.coderslab.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.entity.Author;
-import pl.coderslab.entity.Book;
 
+import javax.validation.Valid;
 import java.util.List;
 
 @Controller
@@ -66,9 +67,12 @@ public class AuthorController {
     }
 
     @PostMapping("/author/addForm")
-    public String authorForm(@ModelAttribute Author author) {
+    public String authorForm(@Valid @ModelAttribute Author author, BindingResult result) {
+        if (result.hasErrors()) {
+            return "AuthorForm";
+        }
         authorDao.save(author);
-        return "redirect:/authors";
+        return "redirect:/author";
     }
 
     @GetMapping("/authors")

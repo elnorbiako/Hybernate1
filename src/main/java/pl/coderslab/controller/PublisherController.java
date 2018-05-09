@@ -3,11 +3,13 @@ package pl.coderslab.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.PublisherDao;
 import pl.coderslab.entity.Author;
 import pl.coderslab.entity.Publisher;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Random;
 
@@ -57,7 +59,10 @@ public class PublisherController {
     }
 
     @PostMapping("/publisher/addForm")
-    public String publisherForm(@ModelAttribute Publisher publisher) {
+    public String publisherForm(@Valid @ModelAttribute Publisher publisher, BindingResult result) {
+        if (result.hasErrors()) {
+            return "PublisherForm";
+        }
         publisherDao.save(publisher);
         return "redirect:/publishers";
     }

@@ -15,6 +15,13 @@
 
 <form:form  method="post" modelAttribute="publisher">
     <form:input path="name" placeholder="Name"/>
+    <form:errors path="name"/>
+
+    NIP: <form:input path="nip" type="number" placeholder="Nip"/>
+    <form:errors path="nip" />
+
+    Regon: <form:input path="regon" type="number" placeholder="Regon"/>
+    <form:errors path="regon" />
 
     <input type="submit" value="Save"/>
 </form:form>

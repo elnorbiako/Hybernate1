@@ -3,6 +3,7 @@ package pl.coderslab.app;
 import org.springframework.web.WebApplicationInitializer;
 import org.springframework.web.context.support.AnnotationConfigWebApplicationContext;
 import org.springframework.web.servlet.DispatcherServlet;
+import pl.coderslab.converter.DateStringConverter;
 
 import javax.servlet.ServletContext;
 import javax.servlet.ServletException;
@@ -15,6 +16,7 @@ public class AppInitializer implements WebApplicationInitializer {
         AnnotationConfigWebApplicationContext ctx =new AnnotationConfigWebApplicationContext();
         ctx.register(AppConfig.class);
         ctx.register(FormatterConfig.class);
+        ctx.register(DateStringConverter.class);
         ctx.setServletContext(container);
 
         ServletRegistration.Dynamic servlet = container.addServlet("dispatcher", new DispatcherServlet(ctx));
