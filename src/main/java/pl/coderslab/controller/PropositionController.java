@@ -4,14 +4,18 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import pl.coderslab.dao.BookDao;
 import pl.coderslab.entity.Book;
+import pl.coderslab.interfaces.ValidationGroupProposition;
 
 import javax.validation.Valid;
+import javax.validation.Validator;
+import javax.validation.groups.Default;
 import java.util.List;
 
 @Controller
@@ -19,6 +23,8 @@ public class PropositionController {
 
     @Autowired
     BookDao bookDao;
+    @Autowired
+    Validator validator;
 
     @GetMapping("/proposition/addForm")
     public String propositionForm (Model model) {
@@ -27,7 +33,7 @@ public class PropositionController {
     }
 
     @PostMapping("/proposition/addForm")
-    public String propositionForm(@Valid @ModelAttribute Book book, BindingResult result) {
+    public String propositionForm(@Validated({Default.class}) @ModelAttribute Book book, BindingResult result) {
         if (result.hasErrors()) {
             return "PropositionForm";
         }
@@ -59,7 +65,10 @@ public class PropositionController {
     }
 
     @PostMapping("proposition/edit/{id}")
-    public String edit(@ModelAttribute Book book) {
+    public String edit(@Validated({Default.class}) @ModelAttribute Book book, BindingResult result) {
+        if (result.hasErrors()) {
+            return "PropositionEdit";
+        }
         bookDao.update(book);
         return "redirect:/propositions";
 

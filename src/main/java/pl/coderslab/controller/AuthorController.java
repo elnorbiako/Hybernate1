@@ -7,6 +7,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import pl.coderslab.dao.AuthorDao;
 import pl.coderslab.entity.Author;
+import pl.coderslab.repository.AuthorRepository;
 
 import javax.validation.Valid;
 import java.util.List;
@@ -17,6 +18,11 @@ public class AuthorController {
 
     @Autowired
     AuthorDao authorDao;
+
+    @Autowired
+    AuthorRepository authorRepository;
+
+
 
     @GetMapping("/author/add")
     @ResponseBody
@@ -101,6 +107,20 @@ public class AuthorController {
     public String edit(@ModelAttribute Author author) {
         authorDao.update(author);
         return "redirect:/authors";
+    }
+
+    @GetMapping("/authoronee/{emailPart}")
+    public String getAuthorOne(Model model, @PathVariable String emailPart) {
+        List<Author> authors = authorRepository.findByEmailPart(emailPart + "%");
+        model.addAttribute("authors", authors);
+        return "AuthorList";
+    }
+
+    @GetMapping("/authoronep/{peselPart}")
+    public String getAuthorPeselOne(Model model, @PathVariable String peselPart) {
+        List<Author> authors = authorRepository.findByPeselPart(peselPart + "%");
+        model.addAttribute("authors", authors);
+        return "AuthorList";
     }
 
 }

@@ -8,6 +8,7 @@ import javax.validation.constraints.Max;
 import javax.validation.constraints.Min;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
+import javax.validation.groups.Default;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -19,32 +20,29 @@ public class Book {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @Size(min =5)
-    @NotNull(groups =
-            ValidationGroupProposition.class)
+    @Size(min =5, groups = {ValidationGroupProposition.class})
+    @NotNull(groups = {Default.class, ValidationGroupProposition.class})
     private String title;
 
-    @NotEmpty
+    @NotEmpty(groups = {ValidationGroupProposition.class})
     @ManyToMany(fetch = FetchType.EAGER)
     private List<Author> authors = new ArrayList<>();
 
-    @Min(1)
-    @Max(10)
+    @Min(value =1, groups = {ValidationGroupProposition.class})
+    @Max(value = 10, groups = {ValidationGroupProposition.class})
     private int rating;
 
-    @NotNull
+    @NotNull(groups = {ValidationGroupProposition.class})
     @ManyToOne(fetch = FetchType.EAGER)
     private Publisher publisher;
 
-    @Size(max=600)
+    @Size(max=600, groups = {ValidationGroupProposition.class})
     @Column(columnDefinition = "TEXT")
-    @NotNull(groups =
-            ValidationGroupProposition.class)
+    @NotNull(groups = {Default.class, ValidationGroupProposition.class})
     private String description;
-
     // to be continued - slajd 41
 
-    @Min(1)
+    @Min(value =1, groups = {ValidationGroupProposition.class})
     private int pages;
 
     private boolean proposition;
@@ -107,5 +105,13 @@ public class Book {
 
     public void setPages(int pages) {
         this.pages = pages;
+    }
+
+    public boolean isProposition() {
+        return proposition;
+    }
+
+    public void setProposition(boolean proposition) {
+        this.proposition = proposition;
     }
 }
